@@ -8,3 +8,9 @@ Scripts for Maxent analysis
 5. Environmental Variables filter/climate selection
 6. Maxent test
 7. Maxent final analysis
+
+# Requirements
+
+# Data
+
+# Acknowledgements
