@@ -22,5 +22,5 @@ b.Processing
 (5) Remove the distribution points of cultivation or introduction
 (6) Data integration (Species,Latitude,Longitude,elevation,Date,day,month,year,Source,specimen or photo link)
 (7) Deduplication
-(8) Rarefraction (R script, input csv files with species,lat,lon)
-(9) 
+(8) Rarefraction (R script from Oskar Brattström, University of Glasgow, input csv files with species,lat,lon)
+(9) Value check--Extract the corresponding environmental variable values of distribution points(R script, from Oskar Brattström,University of Glasgow)
