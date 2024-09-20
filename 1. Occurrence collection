@@ -1,12 +1,26 @@
-1. Occurrence collection
+1. Occurrence collection and processing
+
+a.Occurrence collection
 
 Database or other sources:
-GBIF
-iNaturalist
-NSII
-IUCN
-CFH
-PPBC
+GBIF (https://www.gbif.org/)
+iNaturalist (https://www.inaturalist.org/)
+NSII (http://www.nsii.org.cn/2017/home.php)
+IUCN (https://www.iucnredlist.org/)
+CFH (https://www.cfh.ac.cn/)
+PPBC (https://ppbc.iplant.cn/)
 Research paper
 Field observation
 ....
+
+b.Processing
+
+(1) Specimen identification
+(2) Confirm Address
+(3) Completion of longitude and latitude information
+(4) Confirmation of longitude and latitude information (Arcgis Map)
+(5) Remove the distribution points of cultivation or introduction
+(6) Data integration (Species,Latitude,Longitude,elevation,Date,day,month,year,Source,specimen or photo link)
+(7) Deduplication
+(8) Rarefraction (R script, input csv files with species,lat,lon)
+(9) 
