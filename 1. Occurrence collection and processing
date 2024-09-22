@@ -29,11 +29,11 @@ b.Processing
 (4) Data integration (Species,Latitude,Longitude,elevation,Date,day,month,year,Source,specimen or photo link)
 (5) Convert excel file to csv files
 
-Example:
-species	lat	lon	elevation	Date	day	month	year	Source
-Ficus altissima	11.633333	99.616667	240	2002-08-25T00:00:00	25	8	2002	GBIF
-Ficus altissima	28.035278	98.602222	1650	1997-09-12T00:00:00	12	9	1997	GBIF
-Ficus altissima	25.4425	98.854167	1000	1998-10-19T00:00:00	19	10	1998	GBIF
+csv file Example:
+##species	lat	lon	elevation	Date	day	month	year	Source
+##Ficus altissima	11.633333	99.616667	240	2002-08-25T00:00:00	25	8	2002	GBIF
+##Ficus altissima	28.035278	98.602222	1650	1997-09-12T00:00:00	12	9	1997	GBIF
+##Ficus altissima	25.4425	98.854167	1000	1998-10-19T00:00:00	19	10	1998	GBIF
 
 
 (6) Deduplication by excel
@@ -275,13 +275,113 @@ for (file in csv_files) {
 }
 
 
+#### Mercator_standardization
+csv file Example:
+##species	x	y	pr_ab	lon	lat
+##Ficus_altissima	11509108.98	2676293.272	1	103.388085	23.36561
+##Ficus_altissima	10974836.87	2806350.872	1	98.588637	24.433739
+##Ficus_altissima	11126499.88	3012855.112	1	99.951049	26.11116
+
+
+
 (12) Value check--Extract the corresponding environmental variable values of distribution points(R script, from Oskar Brattström,University of Glasgow)
+
+
+#######批量
+##########修改为批量读取某个文件夹中的tif并提取变量
+
+# 设置选项以避免rgdal的警告  
+options("rgdal_show_exportToProj4_warnings"="none")  
+  
+# 加载必要的库  
+library(raster)  
+
+# 加载或定义你的坐标点  
+file_prefix <- "Ficus_benjamina_5km_thin1_native_rmsuspicious2_985_mercator_s" 
+
+records <- read.csv(paste0(file_prefix,".csv"), header = TRUE, stringsAsFactors = FALSE)  
+DataPoints1 <- records[, c("x", "y")]  # 确保x和y是你的经纬度或投影坐标列  
+  
+# 设定tif文件所在的文件夹  
+
+tif_folder <- "G:/开放课题/05/01_ENM/02_Environmental_data/02asc2raster_world/04soilgrid_earthenv_worldclim_5km_unified_layers/09Mask_tif/tif_mask"
+
+  
+# 列出tif文件夹中的所有tif文件  
+tif_files <- list.files(tif_folder, pattern = "\\.tif$", full.names = TRUE)  
+  
+# 初始化一个空的列表来存储提取的变量  
+extracted_vars <- list()  
+  
+# 循环遍历tif文件并提取变量  
+for (tif_file in tif_files) {  
+  # 从文件名中提取变量名（假设文件名遵循一定的命名规则）  
+  varname <- tools::file_path_sans_ext(basename(tif_file))  
+    
+  # 读取tif文件  
+  raster_obj <- raster(tif_file)  
+    
+  # 提取变量值  
+  extracted_value <- extract(raster_obj, DataPoints1)  
+    
+  # 将提取的值添加到列表中，使用变量名作为键  
+  extracted_vars[[varname]] <- extracted_value  
+}  
+  
+# 将提取的变量合并到原始记录数据框中  
+# 注意：这里我们假设所有tif文件的DataPoints1都有对应的值（即没有NAs由于坐标不匹配）  
+# 实际上，你可能需要处理这种情况（例如，通过计算平均值、中位数或忽略NAs）  
+for (varname in names(extracted_vars)) {  
+  records[[varname]] <- extracted_vars[[varname]]  
+}  
+  
+# 写入CSV文件  
+write.csv(records, paste0(file_prefix,".ValueCheck.csv"), row.names=FALSE, quote=FALSE)
+
+
 
 
 (13) Removing the distribution points with missing environmental variable values or filling in the missing environmental variable values of distribution points
 
+########Multiple samples
+
+# 加载必要的库（虽然在这个例子中主要使用的是基础R功能）  
+# library(dplyr)  # 如果需要进行更复杂的数据处理，可以取消注释  
+  
+# 设置工作目录（如果你的CSV文件都在这个目录下）  
+setwd("G:/开放课题/05/01_ENM/22_rmNA")  
+  
+# 获取当前目录下所有的CSV文件  
+csv_files <- list.files(pattern = "\\.csv$")  
+  
+# 遍历每个CSV文件  
+for (file in csv_files) {  
+  # 读取CSV文件  
+  input_file <- file.path(getwd(), file)  
+  data <- read.csv(input_file, header = TRUE, stringsAsFactors = FALSE)  
+    
+  # 去除包含NA的行  
+  cleaned_data <- na.omit(data)  
+    
+  # 构造输出文件名  
+  output_file <- gsub("\\.csv$", "_cleaned.csv", file)  # 假设原文件名是data.csv，则输出名为data_cleaned.csv  
+  output_file <- file.path(getwd(), output_file)  
+    
+  # 导出新的CSV文件  
+  write.csv(cleaned_data, file = output_file, row.names = FALSE)  
+    
+  # 打印消息（可选）  
+  cat("已去除", file, "中的NA行并保存为：", output_file, "\n")  
+}
+
+
 
 (14) SWD formate convert
 
+swd formate file example:
+##species	X	Y	aspectcos_mask	aspectsin_mask	bdod_0.5_mask
+##Ficus altissima	11509108.98	2676293.272	0.208117843	-0.154846191	126.2010803
+##Ficus altissima	10974836.87	2806350.872	0.121181607	0.029759424	106.302742
+##Ficus altissima	11126499.88	3012855.112	-0.312497437	-0.331383467	111.7556992
 
 
