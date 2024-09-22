@@ -1,0 +1,8 @@
+3. Environmental Variables Selection
+
+Factor selection
+     I.Maxent point analysis (input distribution data with environmental factors' value, csv files), select top 30, the Highest Gain and	Indispensable factors
+     II. Pearson correlation
+     III. VIF
+     IV. Screen based on upper three steps
+     V. Maxent layer analysis (input distribution data, and complete environmental factors' layer, asc files)
