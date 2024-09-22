@@ -28,8 +28,194 @@ b.Processing
 
 (4) Data integration (Species,Latitude,Longitude,elevation,Date,day,month,year,Source,specimen or photo link)
 (5) Convert excel file to csv files
+
+Example:
+species	lat	lon	elevation	Date	day	month	year	Source
+Ficus altissima	11.633333	99.616667	240	2002-08-25T00:00:00	25	8	2002	GBIF
+Ficus altissima	28.035278	98.602222	1650	1997-09-12T00:00:00	12	9	1997	GBIF
+Ficus altissima	25.4425	98.854167	1000	1998-10-19T00:00:00	19	10	1998	GBIF
+
+
 (6) Deduplication by excel
 (7) Rarefraction (R script from Oskar Brattström, University of Glasgow, input csv files with species,lat,lon)
+
+#Install
+install.packages("dismo")
+install.packages("maptools")
+install.packages("spThin")
+install.packages("naturalearth")
+devtools::install_github("ropensci/rnaturalearth")
+devtools::install_github("ropensci/rnaturalearthdata")
+install.packages("rnaturalearth")
+
+#load the package
+library(rnaturalearth)
+library(sp)
+sp::plot(ne_countries())
+sp::plot(ne_countries(type = "countries", scale = "small"))
+library (dismo)
+library(spThin)
+
+#############################################################
+i="Ficus_altissima_790.csv"
+bicyclus <- read.table(i, header = TRUE, sep=",")
+# finding coorindate limits for species (+1 buffer)
+min.x <- (min(bicyclus$lon, na.rm = TRUE))-1
+max.x <- (max(bicyclus$lon, na.rm = TRUE))+1
+min.y <- (min(bicyclus$lat, na.rm = TRUE))-1
+max.y <- (max(bicyclus$lat, na.rm = TRUE))+1
+mapname <- paste(bicyclus$species[1],".pdf", sep="")
+# save pdf of plot
+pdf(mapname)
+plot(ne_countries(), xlim=c(min.x,max.x), ylim=c(min.y,max.y), main= bicyclus$species[1], axes=TRUE, col="light yellow")
+# restore the box around the map
+box()
+# plot points
+points(bicyclus$lon, bicyclus$lat, col='orange', pch=20, cex=0.75)
+# plot points again to add a border, for better visibility
+points(bicyclus$lon, bicyclus$lat, col='red', cex=0.75)
+dev.off()
+
+########################################################################################
+thinname <- paste(bicyclus$species[1],"_1km", sep="")
+thinnedbicyclus <- thin(bicyclus, long.col = "lon", lat.col = "lat", spec.col = "species", 
+                        reps = 25, thin.par = 1, out.dir = "1km", write.files = TRUE,
+                        write.log.file = TRUE, log.file = "rare1.txt", out.base = thinname,
+                        max.files = 1, verbose = TRUE, locs.thinned.list.return = FALSE)
+#save rarefied 1 km map
+setwd("./1km/")
+data.file <- paste(bicyclus$species[1],"_1km_thin1.csv", sep="")
+mapname <- paste(bicyclus$species[1]," 1km", sep="")
+mapfile <- paste(bicyclus$species[1],"_1km.pdf", sep="")
+bicyclus.thin <- read.table(data.file, header = TRUE, sep=",")
+# save pdf of plot
+pdf(mapfile)
+plot(ne_countries(), xlim=c(min.x,max.x), ylim=c(min.y,max.y), main= mapname, axes=TRUE, col="light yellow")
+# restore the box around the map
+box()
+# plot points
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='orange', pch=20, cex=0.75)
+# plot points again to add a border, for better visibility
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='red', cex=0.75)
+dev.off()
+########################################################################################
+
+
+
+
+
+
+
+
+########################################################################################
+thinname <- paste(bicyclus$species[1],"_2km", sep="")
+thinnedbicyclus <- thin(bicyclus, long.col = "lon", lat.col = "lat", spec.col = "species", 
+                        reps = 25, thin.par = 2, out.dir = "2km", write.files = TRUE,
+                        write.log.file = TRUE, log.file = "rare2.txt", out.base = thinname,
+                        max.files = 1, verbose = TRUE, locs.thinned.list.return = FALSE)
+#save rarefied 2 km map
+setwd("./2km/")
+data.file <- paste(bicyclus$species[1],"_2km_thin1.csv", sep="")
+mapname <- paste(bicyclus$species[1]," 2km", sep="")
+mapfile <- paste(bicyclus$species[1],"_2km.pdf", sep="")
+bicyclus.thin <- read.table(data.file, header = TRUE, sep=",")
+# save pdf of plot
+pdf(mapfile)
+plot(ne_countries(), xlim=c(min.x,max.x), ylim=c(min.y,max.y), main= mapname, axes=TRUE, col="light yellow")
+# restore the box around the map
+box()
+# plot points
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='orange', pch=20, cex=0.75)
+# plot points again to add a border, for better visibility
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='red', cex=0.75)
+dev.off()
+########################################################################################
+
+
+
+
+
+########################################################################################
+thinname <- paste(bicyclus$species[1],"_3km", sep="")
+thinnedbicyclus <- thin(bicyclus, long.col = "lon", lat.col = "lat", spec.col = "species", 
+                        reps = 25, thin.par = 3, out.dir = "3km", write.files = TRUE,
+                        write.log.file = TRUE, log.file = "rare3.txt", out.base = thinname,
+                        max.files = 1, verbose = TRUE, locs.thinned.list.return = FALSE)
+#save rarefied 3 km map
+setwd("./3km/")
+data.file <- paste(bicyclus$species[1],"_3km_thin1.csv", sep="")
+mapname <- paste(bicyclus$species[1]," 3km", sep="")
+mapfile <- paste(bicyclus$species[1],"_3km.pdf", sep="")
+bicyclus.thin <- read.table(data.file, header = TRUE, sep=",")
+# save pdf of plot
+pdf(mapfile)
+plot(ne_countries(), xlim=c(min.x,max.x), ylim=c(min.y,max.y), main= mapname, axes=TRUE, col="light yellow")
+# restore the box around the map
+box()
+# plot points
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='orange', pch=20, cex=0.75)
+# plot points again to add a border, for better visibility
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='red', cex=0.75)
+dev.off()
+########################################################################################
+
+
+
+
+
+
+
+########################################################################################
+thinname <- paste(bicyclus$species[1],"_4km", sep="")
+thinnedbicyclus <- thin(bicyclus, long.col = "lon", lat.col = "lat", spec.col = "species", 
+                        reps = 25, thin.par = 4, out.dir = "4km", write.files = TRUE,
+                        write.log.file = TRUE, log.file = "rare4.txt", out.base = thinname,
+                        max.files = 1, verbose = TRUE, locs.thinned.list.return = FALSE)
+#save rarefied 4 km map
+setwd("./4km/")
+data.file <- paste(bicyclus$species[1],"_4km_thin1.csv", sep="")
+mapname <- paste(bicyclus$species[1]," 4km", sep="")
+mapfile <- paste(bicyclus$species[1],"_4km.pdf", sep="")
+bicyclus.thin <- read.table(data.file, header = TRUE, sep=",")
+# save pdf of plot
+pdf(mapfile)
+plot(ne_countries(), xlim=c(min.x,max.x), ylim=c(min.y,max.y), main= mapname, axes=TRUE, col="light yellow")
+# restore the box around the map
+box()
+# plot points
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='orange', pch=20, cex=0.75)
+# plot points again to add a border, for better visibility
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='red', cex=0.75)
+dev.off()
+########################################################################################
+
+
+
+
+
+########################################################################################
+thinname <- paste(bicyclus$species[1],"_5km", sep="")
+thinnedbicyclus <- thin(bicyclus, long.col = "lon", lat.col = "lat", spec.col = "species", 
+                        reps = 25, thin.par = 5, out.dir = "5km", write.files = TRUE,
+                        write.log.file = TRUE, log.file = "rare5.txt", out.base = thinname,
+                        max.files = 1, verbose = TRUE, locs.thinned.list.return = FALSE)
+#save rarefied 5 km map
+setwd("./5km/")
+data.file <- paste(bicyclus$species[1],"_5km_thin1.csv", sep="")
+mapname <- paste(bicyclus$species[1]," 5km", sep="")
+mapfile <- paste(bicyclus$species[1],"_5km.pdf", sep="")
+bicyclus.thin <- read.table(data.file, header = TRUE, sep=",")
+# save pdf of plot
+pdf(mapfile)
+plot(ne_countries(), xlim=c(min.x,max.x), ylim=c(min.y,max.y), main= mapname, axes=TRUE, col="light yellow")
+# restore the box around the map
+box()
+# plot points
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='orange', pch=20, cex=0.75)
+# plot points again to add a border, for better visibility
+points(bicyclus.thin$lon, bicyclus.thin$lat, col='red', cex=0.75)
+dev.off()
+########################################################################################
 
 
 (8) Native distribution area Crop based on KEW POWO (https://powo.science.kew.org/) by excel
@@ -39,10 +225,54 @@ b.Processing
 
 
 (10) Confirmation of longitude and latitude information (Arcgis Map)
-
+a.Input csv distribution points files
+b.Input world map and environmental variables layers
 
 
 (11) Mercator coordinate system convert and formate standardization (R script)
+
+Decimal2Mercator.R
+#批量处理
+# 安装和加载必要的库  
+if (!requireNamespace("sf", quietly = TRUE)) install.packages("sf")  
+library(sf)  
+  
+# 设置工作目录，这里需要替换为你的CSV文件所在的文件夹路径  
+setwd("E:/开放课题/05/01_ENM/01_Distribution_data/5km_native_mercator")  
+  
+# 获取文件夹中所有的CSV文件  
+csv_files <- list.files(pattern = "\\.csv$", full.names = TRUE)  
+  
+# 遍历CSV文件  
+for (file in csv_files) {  
+  # 读取CSV文件  
+  points_df <- read.csv(file)  
+ 
+# 检查并删除包含缺失经纬度值的行  
+  if (any(is.na(points_df$lon)) || any(is.na(points_df$lat))) {  
+    points_df <- points_df[!is.na(points_df$lon) & !is.na(points_df$lat), ]  
+  }  
+
+  # 假设CSV中的经纬度列名为"X"和"Y"（如果不同，请相应更改）  	
+
+  points_sf <- st_as_sf(points_df, coords = c("lon", "lat"), crs = 4326)  
+    
+  # 转换投影到Mercator  
+  points_mercator <- st_transform(points_sf, 3857)  
+    
+  # 提取坐标并添加到数据框中  
+  mercator_coords <- st_coordinates(points_mercator)  
+  # 假设不需要原始经纬度列，如果需要，请调整setdiff中的参数  
+  mercator_df <- data.frame(mercator_coords, points_df[setdiff(names(points_df), c("lon_mer", "lat_mer"))])  # 修改为X, Y或longitude, latitude  
+    
+  # 构造输出文件名  
+  output_file <- gsub("\\.csv$", "_mercator.csv", basename(file))  
+    
+  # 导出为CSV  
+  write.csv(mercator_df, output_file, row.names = FALSE)  
+    
+  cat("文件", file, "已处理并保存为", output_file, "\n")  
+}
 
 
 (12) Value check--Extract the corresponding environmental variable values of distribution points(R script, from Oskar Brattström,University of Glasgow)
