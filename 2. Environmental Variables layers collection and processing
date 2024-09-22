@@ -2,7 +2,9 @@
 
 a. Environamental variables collection
 
-Worldclim
+Worldclim  https://worldclim.org/data/worldclim21.html  (there are version 2.1 and 1.4), Climate, Current, Past, Future
 Climond
 Soilgrid
-EarthEnv
+EarthEnv OpenTopography
+Divagis
+Chelsa
