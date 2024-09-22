@@ -2,7 +2,7 @@
 
 a. Environamental variables collection
 
-Worldclim  https://worldclim.org/data/worldclim21.html  (there are version 2.1 and 1.4), Climate, Current, Past, Future
+Worldclim  https://worldclim.org/data/worldclim21.html  (there are version 2.1 and 1.4), Climate, Current, Past (lgm, lig, mh), Future (2050, 2070)
 Soilgrid   https://files.isric.org/soilgrids/latest/data_aggregated/; https://soilgrids.org/, Soil, Current
 EarthEnv   https://www.earthenv.org/topography, topography, Current
 ##Climond    https://www.climond.org/, climate, Current and Future (Optional)
@@ -10,18 +10,30 @@ EarthEnv   https://www.earthenv.org/topography, topography, Current
 
 b. Processing
 
-(1) Worldclim  https://worldclim.org/data/worldclim21.html  (there are version 2.1 and 1.4), Climate, Current, Past, Future
+(1) tif files download
 
-2.5km tif files download
+(2) projection (arcmap)
+
+(3) add Meter unit and projection Mercator (arcmap)
+
+(4) Intersect (arcmap)
+
+(5) Mask (arcmap)
+
+(6) convert tif to asc files (arcmap)
+
+(7) current dataset with both tif and asc, tif for flexsdm and value check, asc for maxent
+
+(8) future and past dataset will have both future or past climate variables and current soil and topography variables
+
+(9) Makesure that names of different periods dataset have same names of factors for maxent analysis
 
 
 
-(2) Soilgrid   https://files.isric.org/soilgrids/latest/data_aggregated/; https://soilgrids.org/, Soil, Current
 
 
 
 
-(3) EarthEnv   https://www.earthenv.org/topography, topography, Current
 
 
 
