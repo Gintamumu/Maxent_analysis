@@ -25,10 +25,4 @@ b.Processing
 (8) Rarefraction (R script from Oskar Brattström, University of Glasgow, input csv files with species,lat,lon)
 (9) Value check--Extract the corresponding environmental variable values of distribution points(R script, from Oskar Brattström,University of Glasgow)
 (10) Removing the distribution points with missing environmental variable values or filling in the missing environmental variable values of distribution points
-(11) Factor selection
-     I.Maxent point analysis (input distribution data with environmental factors' value, csv files), select top 30, the Highest Gain and	Indispensable factors
-     II. Pearson correlation
-     III. VIF
-     IV. Screen based on upper three steps
-     V. Maxent layer analysis (input distribution data, and complete environmental factors' layer, asc files)
-     
+
