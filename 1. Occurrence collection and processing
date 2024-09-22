@@ -18,14 +18,40 @@ b.Processing
 (1) Specimen identification
 (2) Confirm Address
 (3) Completion of longitude and latitude information
-(4) Confirmation of longitude and latitude information (Arcgis Map)
-(5) Remove the distribution points of cultivation or introduction
-(6) Data integration (Species,Latitude,Longitude,elevation,Date,day,month,year,Source,specimen or photo link)
-(7) Deduplication
-(8) Rarefraction (R script from Oskar Brattström, University of Glasgow, input csv files with species,lat,lon)
-(9) Native distribution area Crop based on KEW POWO (https://powo.science.kew.org/)
-(10) Mercator coordinate system convert and formate standardization
-(11) Value check--Extract the corresponding environmental variable values of distribution points(R script, from Oskar Brattström,University of Glasgow)
-(12) Removing the distribution points with missing environmental variable values or filling in the missing environmental variable values of distribution points
-(13) SWD formate convert
+
+经纬度拾取坐标系统 https://api.map.baidu.com/lbsapi/getpoint/index.html
+经纬度在线查询工具 https://map.yanue.net/
+中国植物标本馆名录 https://www.cvh.ac.cn/topics/herbaria.php
+世界标本馆List of herbaria https://en.wikipedia.org/wiki/List_of_herbaria
+世界标本馆缩写查询 https://sweetgum.nybg.org/science/ih/
+谷歌地图 https://www.google.com/maps/
+
+(4) Data integration (Species,Latitude,Longitude,elevation,Date,day,month,year,Source,specimen or photo link)
+(5) Convert excel file to csv files
+(6) Deduplication by excel
+(7) Rarefraction (R script from Oskar Brattström, University of Glasgow, input csv files with species,lat,lon)
+
+
+(8) Native distribution area Crop based on KEW POWO (https://powo.science.kew.org/) by excel
+
+
+(9) Remove the distribution points of cultivation or introduction
+
+
+(10) Confirmation of longitude and latitude information (Arcgis Map)
+
+
+
+(11) Mercator coordinate system convert and formate standardization (R script)
+
+
+(12) Value check--Extract the corresponding environmental variable values of distribution points(R script, from Oskar Brattström,University of Glasgow)
+
+
+(13) Removing the distribution points with missing environmental variable values or filling in the missing environmental variable values of distribution points
+
+
+(14) SWD formate convert
+
+
 
