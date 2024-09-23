@@ -94,7 +94,13 @@ ArcToolbox --> Spatial Analyst Tools --> Exraction --> Extract by Mask
 Input raster of feature mask data = intersect.tif
 
 
-(6) convert tif to asc files (arcmap)
+(6) Convert tif to asc files (arcmap)
+
+Raster to ASCII
+
+ArcToolbox --> Conversion Tools --> From Raster --> Raster to ASCII
+
+edit .txt to .asc
 
 (7) current dataset with both tif and asc, tif for flexsdm and value check, asc for maxent
 
