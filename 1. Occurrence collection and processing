@@ -343,6 +343,8 @@ write.csv(records, paste0(file_prefix,".ValueCheck.csv"), row.names=FALSE, quote
 
 (13) Removing the distribution points with missing environmental variable values or filling in the missing environmental variable values of distribution points
 
+
+a. Removing the distribution points with missing environmental variable values
 ########Multiple samples
 
 # 加载必要的库（虽然在这个例子中主要使用的是基础R功能）  
@@ -373,6 +375,10 @@ for (file in csv_files) {
   # 打印消息（可选）  
   cat("已去除", file, "中的NA行并保存为：", output_file, "\n")  
 }
+
+
+b. filling in the missing environmental variable values of distribution points
+"NA Value check by Acrmap.docx" file could be refer to "https://github.com/Gintamumu/Colour_pattern_biogeography/tree/main/03_Environmental_value_add_and_check"
 
 
 
