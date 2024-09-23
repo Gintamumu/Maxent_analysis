@@ -4,5 +4,14 @@ a. Current
 
 the same setting like step 3 but replicate 10 times
 
+Maxent setting: 
+Maxent v3.4.4, 
+check Creat response curves, Do jackknife to measure variables importance, 
+output format = Logistic
+check Random seed
+Replicates = 10
+Uncheck Write output grids
+Leave other setting default
+
 b. Future and Past
 
