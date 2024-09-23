@@ -87,6 +87,13 @@ cat("交集地理范围已导出为Shapefile：", output_shp, "\n")
 
 (5) Mask (arcmap)
 
+Extract by Mask
+
+ArcToolbox --> Spatial Analyst Tools --> Exraction --> Extract by Mask
+
+Input raster of feature mask data = intersect.tif
+
+
 (6) convert tif to asc files (arcmap)
 
 (7) current dataset with both tif and asc, tif for flexsdm and value check, asc for maxent
