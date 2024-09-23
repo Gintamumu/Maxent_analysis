@@ -4,10 +4,10 @@ Scripts for Maxent analysis
 1. Occurrence collection and processing
 2. Environmental Variables layers processing
 3. Environmental Variables Selection/climate selection
-4. Background Trim/background mining
-5. Environmental Variables filter/climate selection
-6. Maxent test
-7. Maxent final analysis
+4. Current, Future and Past Maxent test
+5. Result interpretation and data processing
+6. Range extraction based on POWO\Paper by flexsdm or map
+7. Background Trim/background mining for different dispersal scene
 
 # Requirements
 1.R
