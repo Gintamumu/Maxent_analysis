@@ -1,1 +1,62 @@
 5. Result interpretation and data processing
+
+Examples:
+
+a. Ficus_altissima.html (the summary results of all replicates)
+
+(1)Analysis of omission/commission
+The following picture shows the test omission rate and predicted area as a function of the cumulative threshold, 
+averaged over the replicate runs. The omission rate should be close to the predicted omission, because of the definition of the cumulative threshold.
+
+The next picture is the receiver operating characteristic (ROC) curve for the same data, again averaged over the replicate runs. 
+Note that the specificity is defined using predicted area, rather than true commission
+(see the paper by Phillips, Anderson and Schapire cited on the help page for discussion of what this means). 
+The average test AUC for the replicate runs is 0.893, and the standard deviation is 0.026.
+
+AUC > 0.7 will be good.
+
+
+(2)Pictures of the model
+The following two pictures show the point-wise mean and standard deviation of the 10 output grids. Other available summary grids are min, max and median.
+
+Left picture is main result of average potential distribution, Right picture is standard deviation.
+
+点击小图可获得有详细数据的大图
+Clicking on the small image will bring up a larger image with detailed data.
+
+(3)Response curves
+These curves show how each environmental variable affects the Maxent prediction. The curves show how the logistic prediction changes as each environmental variable is varied, 
+keeping all other environmental variables at their average sample value. Click on a response curve to see a larger version. 
+Note that the curves can be hard to interpret if you have strongly correlated variables, as the model may depend on the correlations in ways that are not evident in the curves. 
+In other words, the curves show the marginal effect of changing exactly one variable, 
+whereas the model may take advantage of sets of variables changing together. 
+The curves show the mean response of the 10 replicate Maxent runs (red) and and the mean +/- one standard deviation (blue, two shades for categorical variables).
+
+In contrast to the above marginal response curves, each of the following curves represents a different model, namely, a Maxent model created using only the corresponding variable. 
+These plots reflect the dependence of predicted suitability both on the selected variable and on dependencies induced by correlations between the selected variable and other variables. 
+They may be easier to interpret if there are strong correlations between variables.
+
+点击响应曲线小图可获得有详细数据的大图
+主要看第一行，是在考虑其他因素的同时，该因素的响应曲线变化
+横坐标是环境因素值，纵坐标是适生度。
+
+Clicking on the small graph of the response curve will bring up a larger graph with detailed data. 
+Focus on the first row, which shows the change in the response curve of this factor while taking other factors into consideration. 
+The horizontal axis represents the value of the environmental factor, and the vertical axis represents the suitability.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
