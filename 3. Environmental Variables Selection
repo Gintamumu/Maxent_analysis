@@ -1,8 +1,159 @@
 3. Environmental Variables Selection
 
 Factor selection
-     I. Maxent point analysis (input distribution data with environmental factors' value, csv files), select top 30, the Highest Gain and Indispensable factors
+     I. Maxent point analysis (input distribution data swd formate with environmental factors' value, csv files), select top 30, the Highest Gain and Indispensable factors
+
+swd formate file example:
+species	X	Y	aspectcos_mask	aspectsin_mask	bdod_0.5_mask
+Ficus altissima	11509108.98	2676293.272	0.208117843	-0.154846191	126.2010803
+Ficus altissima	10974836.87	2806350.872	0.121181607	0.029759424	106.302742
+Ficus altissima	11126499.88	3012855.112	-0.312497437	-0.331383467	111.7556992
+
+
+Analysis of variable contributions(Example)
+Variable	Percent contribution	Permutation importance
+northness_mask	8.6	1.9
+geompit_mask	3.8	0.6
+geomshoulder_mask	3.7	5.7
+bio02_mask	3.3	5.6
+ocd_60.100cm_mask	3.2	0.2
+
+the Highest Gain and Indispensable factors(Example)
+The following picture shows the results of the jackknife test of variable importance. The environmental variable with highest gain when used in isolation is northness_mask, 
+which therefore appears to have the most useful information by itself. 
+The environmental variable that decreases the gain the most when it is omitted is northness_mask, which therefore appears to have the most information that isn't present in the other variables. 
+Values shown are averages over replicate runs.
+
+
      II. Pearson correlation
+
+swd formate file example:
+species	X	Y	aspectcos_mask	aspectsin_mask	bdod_0.5_mask
+Ficus altissima	11509108.98	2676293.272	0.208117843	-0.154846191	126.2010803
+Ficus altissima	10974836.87	2806350.872	0.121181607	0.029759424	106.302742
+Ficus altissima	11126499.88	3012855.112	-0.312497437	-0.331383467	111.7556992
+
+######R script#######
+perfal <- read.csv("Ficus_altissima_5km_thin1_native_sus2_mercator_s.ValueCheck_cleaned_swd_top30.csv")
+
+#####Correlation coefficient and correlation test in R
+##https://statsandr.com/blog/correlation-coefficient-and-correlation-test-in-r/
+
+#environment variables
+dat <- perfal[c(4:33)]
+round(cor(dat),
+  digits = 6 # rounded to 6 decimals
+)
+
+# jnk=round(cor(dat),digits = 2)
+# write.csv(jnk, file = "Correlation_43v.csv")
+# na.omit(dat)
+jnk=round(cor(na.omit(dat)),digits = 6)
+
+# write.csv(jnk, file = "Correlation_56.csv")
+write.csv(jnk, file = "Ficus_altissima_5km_thin1_native_sus2_mercator_s.ValueCheck_cleaned_swd_top30.Correlation.csv")
+
+##### 2. Exploratory data analysis #####
+# Correlations between variables
+# install.packages("PerformanceAnalytics")
+
+library(PerformanceAnalytics)
+
+# Produce correlations plots using the chart.Correlation function in
+# PerformanceAnalytics - edited here to remove asterisks indicating significance
+# and density lines from histograms.
+
+chart.Correlation <-
+  function (R, histogram = TRUE, method=c("pearson", "kendall", "spearman"), ...)
+  { # @author R Development Core Team
+    # @author modified by Peter Carl
+    # Visualization of a Correlation Matrix. On top the (absolute) value of the
+    # correlation plus the result of the cor.test as stars. On bottom, the
+    # bivariate scatterplots, with a fitted line
+    
+    x = checkData(R, method="matrix")
+    
+    if(missing(method)) method=method[1] #only use one
+    cormeth <- method
+    
+    # Published at http://addictedtor.free.fr/graphiques/sources/source_137.R
+    panel.cor <- function(x, y, digits=2, prefix="", use="pairwise.complete.obs", method=cormeth, cex.cor, ...)
+    {
+      usr <- par("usr"); on.exit(par(usr))
+      par(usr = c(0, 1, 0, 1))
+      r <- cor(x, y, use=use, method=method) # MG: remove abs here
+      txt <- format(c(r, 0.123456789), digits=digits)[1]
+      txt <- paste(prefix, txt, sep="")
+      if(missing(cex.cor)) cex <- 0.8/strwidth(txt)
+      
+      test <- cor.test(as.numeric(x),as.numeric(y), method=method)
+      # borrowed from printCoefmat
+      # MG: add abs here and also include a 30% buffer for small numbers
+      text(0.5, 0.5, txt, cex = cex * (abs(r) + .3) / 1.3)
+    }
+    f <- function(t) {
+      dnorm(t, mean=mean(x), sd=sd.xts(x) )
+    }
+    
+    #remove method from dotargs
+    dotargs <- list(...)
+    dotargs$method <- NULL
+    rm(method)
+    
+    hist.panel = function (x, ...=NULL ) {
+      par(new = TRUE)
+      hist(x,
+           col = "light gray",
+           probability = TRUE,
+           axes = FALSE,
+           main = "",
+           breaks = "FD")
+      #lines(f, col="blue", lwd=1, lty=1) how to add gaussian normal overlay?
+      rug(x)
+    }
+    
+    # Draw the chart
+    if(histogram)
+      pairs(x, gap=0, lower.panel=panel.smooth, upper.panel=panel.cor, diag.panel=hist.panel)
+    else
+      pairs(x, gap=0, lower.panel=panel.smooth, upper.panel=panel.cor) 
+  }
+
+
+######################################################
+# The NA can actually be due to 2 reasons. One is that there is a NA in your data. Another one is due to there being one of the values being constant. This results in standard deviation being equal to zero and hence the cor function returns NA.
+######################################################
+
+# Correlations between predictor variables
+
+chart.Correlation(perfal[c(4:33)])
+
+# Correlations between malar stripe scores
+# chart.Correlation(scores) 
+#If there is only one variable you could not run correlation analysis.
+
+#####################################################
+# Open a pdf file
+
+
+
+pdf("Ficus_altissima_5km_thin1_native_sus2_mercator_s.ValueCheck_cleaned_swd_top30.Correlations.pdf")
+
+# 2. Create a plot
+plot(chart.Correlation(perfal[c(4:33)]))
+# Close the pdf file
+dev.off() 
+################
+
+
      III. VIF
+
+
+
      IV. Screen based on upper three steps
-     V. Maxent layer analysis (input distribution data, and complete environmental factors' layer, asc files)
+
+
+
+     V. Maxent layer analysis (input distribution data, and complete environmental factors' layer, asc files) based response curve and contribution
+
+
