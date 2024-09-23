@@ -14,9 +14,76 @@ b. Processing
 
 (2) add Meter unit and projection Mercator (arcmap)
 
+Project Raster
+
+ArcToolbox--> Data Management Tools --> Projections and Transformations --> Raster --> Project Raster
+
+Output Coordinate System = World_Mercator
+
 (3) Unified resolution 
 
-(4) Intersect (arcmap)
+Resample
+
+ArcToolbox-->Data Management Tools--> Raster --> Raster Processing --> Resample
+
+Set Output Cell Size
+
+X=3960.345031, Y=3960.345031
+
+
+(4) Intersect (R script)
+
+# 安装必要的包  
+# install.packages("raster")  
+# install.packages("sf")  
+# install.packages("stars")  # 如果tif文件很大或需要更高级的处理，可以考虑使用stars包  
+  
+# 加载包  
+library(raster)  
+library(sf)  
+  
+# 设置输入tif文件的路径  
+file1 <- "E:/开放课题/05/01_ENM/02_Environmental_data/02asc2raster_world/04soilgrid_earthenv_worldclim_5km_unified_layers/05tif_pro_addM_5km_mask_pro_Mercator/01Current/aspectcos_mer.tif"  
+file2 <- "E:/开放课题/05/01_ENM/02_Environmental_data/02asc2raster_world/04soilgrid_earthenv_worldclim_5km_unified_layers/05tif_pro_addM_5km_mask_pro_Mercator/01Current/bdod_0-5_mer.tif"  
+file3 <- "E:/开放课题/05/01_ENM/02_Environmental_data/02asc2raster_world/04soilgrid_earthenv_worldclim_5km_unified_layers/05tif_pro_addM_5km_mask_pro_Mercator/01Current/bio01_mer.tif"  
+ 
+# 读取tif文件为raster对象  
+ras1 <- raster(file1)  
+ras2 <- raster(file2)  
+ras3 <- raster(file3)  
+  
+# 确保所有raster对象具有相同的CRS（这里假设它们已经是Mercator）  
+# 如果不是，你需要先转换它们  
+# crs(ras1) <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs"  
+# 类似地设置ras2和ras3的CRS  
+  
+# 提取每个raster的extent，并找到它们的交集  
+ext1 <- extent(ras1)  
+ext2 <- extent(ras2)  
+ext3 <- extent(ras3)  
+# intersect_ext <- st_as_sfc(st_bbox(st_intersection(st_as_sf(st_as_sfc(ext1)),   
+                                                  # st_as_sf(st_as_sfc(ext2))),   
+                                   # st_as_sf(st_as_sfc(ext3)))))  
+  
+# 注意：上面的代码尝试将extent转换为多边形，然后找到它们的交集，但这可能不是最高效的方法  
+# 一种更简单但可能不太精确的方法是直接计算坐标框的交集  
+intersect_ext_simple <- st_as_sfc(st_bbox(c(xmin = max(ext1@xmin, ext2@xmin, ext3@xmin),  
+                                          xmax = min(ext1@xmax, ext2@xmax, ext3@xmax),  
+                                          ymin = max(ext1@ymin, ext2@ymin, ext3@ymin),  
+                                          ymax = min(ext1@ymax, ext2@ymax, ext3@ymax))))  
+  
+# 假设intersect_ext_simple足够好，我们用它来继续  
+# 注意：这里intersect_ext_simple的CRS是未知的，我们需要手动设置  
+crs_string <- crs(ras1)  # 假设所有raster的CRS相同  
+intersect_polygon <- st_set_crs(intersect_ext_simple, crs = crs_string)  
+  
+# 写入Shapefile  
+output_shp <- "E:/开放课题/05/01_ENM/02_Environmental_data/02asc2raster_world/04soilgrid_earthenv_worldclim_5km_unified_layers/09Mask/intersect/intersection_area.shp"  
+st_write(intersect_polygon, output_shp)  
+  
+# 打印消息  
+cat("交集地理范围已导出为Shapefile：", output_shp, "\n")
+
 
 (5) Mask (arcmap)
 
