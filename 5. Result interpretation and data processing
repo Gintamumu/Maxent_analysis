@@ -45,7 +45,41 @@ Focus on the first row, which shows the change in the response curve of this fac
 The horizontal axis represents the value of the environmental factor, and the vertical axis represents the suitability.
 
 
+（4）Analysis of variable contributions
 
+The following table gives estimates of relative contributions of the environmental variables to the Maxent model. To determine the first estimate, in each iteration of the training algorithm, 
+the increase in regularized gain is added to the contribution of the corresponding variable, or subtracted from it if the change to the absolute value of lambda is negative. For the second estimate, 
+for each environmental variable in turn, the values of that variable on training presence and background data are randomly permuted. 
+The model is reevaluated on the permuted data, and the resulting drop in training AUC is shown in the table, normalized to percentages. 
+As with the variable jackknife, variable contributions should be interpreted with caution when the predictor variables are correlated. Values shown are averages over replicate runs.
+
+下表给出了环境变量对Maxent模型相对贡献的估计值。为了确定第一个估计值，在训练算法的每次迭代中，将正则化增益的增加量加到对应变量的贡献中，或者如果λ绝对值的变化为负，则从对应变量的贡献中减去该增加量。
+对于第二个估计值，依次对每个环境变量，将该变量在训练存在数据和背景数据上的值随机排列。在排列后的数据上重新评估模型，并将训练AUC的下降值显示在表中，以百分比形式进行归一化。
+与变量Jackknife一样，当预测变量相关时，应谨慎解释变量贡献。表中所示值为重复运行的平均值。
+
+- Percent contribution：展示了变量在模型训练过程中对模型增益的相对贡献。
+- Permutation importance：展示了在模型预测中打乱某个变量后的AUC下降，从而衡量该变量的预测重要性。
+
+The following picture shows the results of the jackknife test of variable importance. The environmental variable with highest gain when used in isolation is nitrogen_100-200cm, 
+which therefore appears to have the most useful information by itself. The environmental variable that decreases the gain the most when it is omitted is nitrogen_100-200cm, 
+which therefore appears to have the most information that isn't present in the other variables. Values shown are averages over replicate runs.
+以下图片显示了变量重要性Jackknife测试的结果。当单独使用时，增益最高的环境变量是nitrogen_100-200cm，因此它本身似乎包含最有用的信息。
+当省略时增益降低最多的环境变量是nitrogen_100-200cm，因此它似乎包含了其他变量中不存在的最多信息。
+图中所示值为重复运行的平均值。
+
+The next picture shows the same jackknife test, using test gain instead of training gain. Note that conclusions about which variables are most important can change, now that we're looking at test data.
+下一张图片显示了相同的Jackknife测试，但这次使用的是测试增益而不是训练增益。请注意，由于我们现在正在查看测试数据，因此关于哪些变量最重要的结论可能会发生变化。
+
+Lastly, we have the same jackknife test, using AUC on test data.
+最后，我们进行了相同的Jackknife测试，但这次使用的是测试数据的AUC值。
+
+通过Jackknife测试，我们可以得到以下信息：
+- 变量重要性：哪些变量对模型的预测能力贡献最大。（蓝色长条越长，贡献越大）
+- 模型稳定性：观察在移除或置换变量后，模型性能的变化程度，可以评估模型的稳定性和鲁棒性。（绿色长条短于红色长条的程度越大，变化越大，代表该变量越不可缺失）
+- 变量间的相关性：如果多个变量在Jackknife测试中的表现相似，可能表明它们之间存在高度相关性。
+
+
+贡献度有两种方法显示，第一个是展示Percent contribution和Permutation importance，第二个是jackknife test。
 
 
 
