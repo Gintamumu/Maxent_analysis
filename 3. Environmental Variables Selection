@@ -25,6 +25,11 @@ The environmental variable that decreases the gain the most when it is omitted i
 Values shown are averages over replicate runs.
 
 
+
+
+
+
+
      II. Pearson correlation
 
 swd formate file example:
@@ -146,14 +151,154 @@ dev.off()
 ################
 
 
-     III. VIF
+#############################
+Pearson Correlation result example:
+
+	aspectcos_mask	aspectsin_mask	bdod_0.5_mask	bio02_mask
+aspectcos_mask	1	0.102163	0.142821	0.030501
+aspectsin_mask	0.102163	1	-0.096503	0.016027
+bdod_0.5_mask	0.142821	-0.096503	1	-0.002767
+bio02_mask	0.030501	0.016027	-0.002767	1
+
+相关性等级用不同颜色代表
+X>0.8	黄  高
+0.7<X<0.8	红  较高
+0.5<X<0.7	绿  中
+X<0.5 	白  低
+
+Correlation level represented by different colors:
+X>0.8 Yellow High
+0.7<X<0.8 Red Relatively high
+0.5<X<0.7 Green Medium
+X<0.5 White Low
+
+
+
+
+
+     III. VIF (Variance Inflation Factor)
+
+####VIF analysis#####
+########Script based on “Collinearity and stepwise VIF selection” (https://beckmw.wordpress.com/2013/02/05/collinearity-and-stepwise-vif-selection/)##########
+###########Most research papers consider a VIF (Variance Inflation Factor) > 10 as an indicator of multicollinearity, but some choose a more conservative threshold of 5 or even 2.5.##########
+
+#install.packages("clusterGeneration")
+
+require(MASS)
+require(clusterGeneration)
+
+vif_func<-function(in_frame,thresh=10,trace=T,...){
+
+  library(fmsb)
+  
+  if(any(!'data.frame' %in% class(in_frame))) in_frame<-data.frame(in_frame)
+  
+  #get initial vif value for all comparisons of variables
+  vif_init<-NULL
+  var_names <- names(in_frame)
+  for(val in var_names){
+      regressors <- var_names[-which(var_names == val)]
+      form <- paste(regressors, collapse = '+')
+      form_in <- formula(paste(val, '~', form))
+      vif_init<-rbind(vif_init, c(val, VIF(lm(form_in, data = in_frame, ...))))
+      }
+  vif_max<-max(as.numeric(vif_init[,2]), na.rm = TRUE)
+
+  if(vif_max < thresh){
+    if(trace==T){ #print output of each iteration
+        prmatrix(vif_init,collab=c('var','vif'),rowlab=rep('',nrow(vif_init)),quote=F)
+        cat('\n')
+        cat(paste('All variables have VIF < ', thresh,', max VIF ',round(vif_max,2), sep=''),'\n\n')
+        }
+    return(var_names)
+    }
+  else{
+
+    in_dat<-in_frame
+
+    #backwards selection of explanatory variables, stops when all VIF values are below 'thresh'
+    while(vif_max >= thresh){
+      
+      vif_vals<-NULL
+      var_names <- names(in_dat)
+        
+      for(val in var_names){
+        regressors <- var_names[-which(var_names == val)]
+        form <- paste(regressors, collapse = '+')
+        form_in <- formula(paste(val, '~', form))
+        vif_add<-VIF(lm(form_in, data = in_dat, ...))
+        vif_vals<-rbind(vif_vals,c(val,vif_add))
+        }
+      max_row<-which(vif_vals[,2] == max(as.numeric(vif_vals[,2]), na.rm = TRUE))[1]
+
+      vif_max<-as.numeric(vif_vals[max_row,2])
+
+      if(vif_max<thresh) break
+      
+      if(trace==T){ #print output of each iteration
+        prmatrix(vif_vals,collab=c('var','vif'),rowlab=rep('',nrow(vif_vals)),quote=F)
+        cat('\n')
+        cat('removed: ',vif_vals[max_row,1],vif_max,'\n\n')
+        flush.console()
+        }
+
+      in_dat<-in_dat[,!names(in_dat) %in% vif_vals[max_row,1]]
+
+      }
+
+    return(names(in_dat))
+    
+    }
+  
+  }
+
+
+vif_func(in_frame=scores,thresh=1,trace=T) 
+
+vif_func(in_frame=scores,thresh=1.5,trace=T) 
+
+# [1] "cec_0.5cm_mask"          "dx_mask"                
+# [3] "dy_mask"                 "eastness_mask"          
+# [5] "geomflat_mask"           "geompit_mask"           
+# [7] "geomshoulder_mask"       "nitrogen_100.200cm_mask"
+# [9] "northness_mask"          "ocd_30.60cm_mask"       
+# [11] "prec01_mask"             "tpi_mask"               
+# [13] "wv0033_60.100cm_mask"   
+
+vif_func(in_frame=scores,thresh=2,trace=T) 
+
+vif_func(in_frame=scores,thresh=2.5,trace=T) 
+
+vif_func(in_frame=scores,thresh=5,trace=T)         
+
+vif_func(in_frame=scores,thresh=10,trace=T)
+
 
 
 
      IV. Screen based on upper three steps
 
+Priority screening:
+1. Highest Gain and Indispensable factors
+2. VIF top
+3. Pearson correlation
 
 
-     V. Maxent layer analysis (input distribution data, and complete environmental factors' layer, asc files) based response curve and contribution
+
+     V. Maxent layer analysis (input distribution data csv files, and complete environmental factors' layer asc files) based response curve and contribution
+
+根据响应曲线和贡献值，逐步筛选为5个或5个以内的重要影响因子
+Gradually screen out five or less important influencing factors based on the response curve and contribution value.
+
+Curve1: The curves show how the logistic prediction changes as each environmental variable is varied, keeping all other environmental variables at their average sample value.
+Curve2: In contrast to the above marginal response curves, each of the following curves represents a different model, namely, a Maxent model created using only the corresponding variable. 
+
+筛选掉/去除掉 Curve1和Curve2明显不同的因素，明显不同代表该因素极大受到其他因素影响
+Eliminate/Remove factors where Curve1 and Curve2 are significantly different, indicating that the factor is greatly influenced by other factors.
+
+
+
+
+
 
 
