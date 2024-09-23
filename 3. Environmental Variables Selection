@@ -3,6 +3,15 @@
 Factor selection
      I. Maxent point analysis (input distribution data swd formate with environmental factors' value, csv files), select top 30, the Highest Gain and Indispensable factors
 
+Maxent setting: 
+Maxent v3.4.4, 
+check Creat response curves, Do jackknife to measure variables importance, 
+output format = Logistic
+check Random seed
+Replicates = 3
+Uncheck Write output grids
+Leave other setting default
+
 swd formate file example:
 species	X	Y	aspectcos_mask	aspectsin_mask	bdod_0.5_mask
 Ficus altissima	11509108.98	2676293.272	0.208117843	-0.154846191	126.2010803
