@@ -88,9 +88,14 @@ b. Ficus_altissima_avg.asc
 
 可用于后期处理，如改变适生度阈值，利用Arcmap的重分级功能
 
+ 以“10 percentile training presence logistic threshold.”为阈值重分级asc文件
+
+
+
+
 c. maxentResults.csv
 
-可获得其他适生度阈值的参数
+可获得其他适生度阈值的参数  “10 percentile training presence logistic threshold.”
 
 可获得运算过程中的具体运算数值
 
