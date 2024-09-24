@@ -1,4 +1,5 @@
 7. Background Trim or background mining for different dispersal scene
 
 flexsdm挖掘出不同扩散情景的范围的crop tif文件
+
 crop_tif用于Maxent asc的图层裁剪
