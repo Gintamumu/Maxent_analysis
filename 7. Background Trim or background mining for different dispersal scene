@@ -1,7 +1,8 @@
 7. Background Trim or background mining for different dispersal scene
 
-flexsdm挖掘出不同扩散情景的范围的crop tif文件,crop_tif用于Maxent asc的图层裁剪
-
 Maxent的asc文件转换为tif用于裁剪
+ArcToolbox--> Conversion Tools --> To Raster --> ASCII to Raster
 
+flexsdm挖掘出不同扩散情景的范围的crop tif文件,crop_tif用于Maxent asc的图层裁剪
 ArcToolbox--> Spatial Analyst Tools --> Extraction --> Extract by Mask
+(setting: Output data type(optional) = FLOAT)
