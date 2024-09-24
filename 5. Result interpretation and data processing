@@ -8,12 +8,21 @@ a. Ficus_altissima.html (the summary results of all replicates)
 The following picture shows the test omission rate and predicted area as a function of the cumulative threshold, 
 averaged over the replicate runs. The omission rate should be close to the predicted omission, because of the definition of the cumulative threshold.
 
+Omission图：suitable conditions predicted above the threshold and unsuitable below.
+Omission on test samples若在predicted omission，通常解释为检验和训练集是相关的，例如空间自相关存在数据。
+
 The next picture is the receiver operating characteristic (ROC) curve for the same data, again averaged over the replicate runs. 
 Note that the specificity is defined using predicted area, rather than true commission
 (see the paper by Phillips, Anderson and Schapire cited on the help page for discussion of what this means). 
 The average test AUC for the replicate runs is 0.893, and the standard deviation is 0.026.
 
-AUC > 0.7 will be good.
+ROC图：AUC为0.5-0.6预测失败，0.6-0.7较差，0.7-0.8一般，0.8-0.9好,0.9-1.0非
+常好。当评价集与训练集相同，training data和test data的曲线一致，而当评价集
+与训练集不同，training data高于test data曲线。
+
+P值：为不同阈值时omission rate检验的P值，须小于0.05。
+
+AUC > 0.8 will be good.
 
 
 (2)Pictures of the model
