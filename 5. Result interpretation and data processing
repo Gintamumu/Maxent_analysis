@@ -129,9 +129,18 @@ c. Ficus_altissima_avg.asc
 
 可用于后期处理，如改变适生度阈值，利用Arcmap的重分级功能
 
+threshold
+1) minimum training presence logistic threshold, 
+2) 10 percentile training presence logistic threshold, 
+3) equal training sensitivity and specificity logistic threshold
+
+
  以“10 percentile training presence logistic threshold.”为阈值重分级asc文件
 
 将asc通过ArcMap转换为raster格式(输出数据类型float)，并重分级（spatial analysts工具中）。
+
+ArcToolbox-->Spatial Analyst Tools-->Reclass-->Reclassify
+
 注意：现代得到的asc图是转换当中的”物种名.asc”的文件，如C.chingii.asc，而投影后的则是转换”物种名_投影时期.asc”，例如C.chingii_lgm_ccsm.asc.
 
 1）二级图：以10 percentile training presence logistic threshold作为划分适生区与非适生区的阈值。阈值的选择，具体请参考“A Maxent Model v3.3.3e Turorial(ArcGIS v10)”(Last Modified on September 1,2011) 
@@ -145,10 +154,13 @@ c. Ficus_altissima_avg.asc
 
 过程：按属性选取目标区域，转换为面（“由栅格转出”—“栅格转面”）。
 Ps:若尚未投影，先利用“数据管理工具”—“投影&转换”—“定义投影”&“要素”的“投影”，并通过“环境”设置，输出坐标系、处理范围和像元大小。
+ArcToolbox --> Data Management Tools --> Projections and Transformations --> Feature --> Project
 
 计算面积与坐标：针对polygon_all，“打开属性表”——选菜单中的“表选项”—“添加字段”—添加“Area”\”X”\”Y”的双精度格式，使用“计算几何”—选择“面积”/质心的x坐标/质心的Y坐标—选择”单位”（面积为平方千米，坐标为十进制度）。
 
+
 统计面积与坐标：对polygon_all“打开属性表”—菜单中“按属性选择”—选字段“GRIDCODE”,如非适生区，使公式为“GRIDCODE=1”则可选取该部分，右击“Area”第一栏进行“统计”，则可得到面积总和；而经纬度范围则可在“统计”中得到最大值与最小值。
+
 
 计算分布中心：利用适生区的polygon_h,通过“空间统计工具”—“度量地理分布”——“平均中心”（即地理中心/密度中心）——得到的结果进入“打开属性表”——通过“计算几何”将x,y坐标转换为“十进制度”。
 
@@ -162,7 +174,8 @@ Ps:若尚未投影，先利用“数据管理工具”—“投影&转换”—�
 从上面得到的适生区/最高适生区polygon_h将不同时期进行比较，如LGM_CCSM与Current比较，打开“分析工具”—“叠加分析”—“相交”，则可获取两时期的“稳定区”，可利用前面方法计算面积等。
 在利用“交集取反”获得扩张、收缩区，如稳定区与CCSM的适生区，“交集取反”后则获得扩张区，而稳定区与Current的适生区，“交集取反”后则得到收缩区。
 
-
+【4】 将两个时间段前后的预测分布地比较，用红色显示它们迁移的图，是怎么做的？
+这个主要就是用2020数据减去2010年数据 得到一个变化量，然后用-1,1归一化的方法做数据标准化，然后再在Arcgis里面制图（来自华南植物园陈宋佳）
 
 d. 稳定、扩张、收缩区域划分
 
