@@ -69,6 +69,8 @@ As with the variable jackknife, variable contributions should be interpreted wit
 - Percent contribution：展示了变量在模型训练过程中对模型增益的相对贡献。
 - Permutation importance：展示了在模型预测中打乱某个变量后的AUC下降，从而衡量该变量的预测重要性。
 
+Percent_contribution——当环境变量存在强相关性时不能反映真实情况。
+
 The following picture shows the results of the jackknife test of variable importance. The environmental variable with highest gain when used in isolation is nitrogen_100-200cm, 
 which therefore appears to have the most useful information by itself. The environmental variable that decreases the gain the most when it is omitted is nitrogen_100-200cm, 
 which therefore appears to have the most information that isn't present in the other variables. Values shown are averages over replicate runs.
@@ -87,27 +89,78 @@ Lastly, we have the same jackknife test, using AUC on test data.
 - 模型稳定性：观察在移除或置换变量后，模型性能的变化程度，可以评估模型的稳定性和鲁棒性。（绿色长条短于红色长条的程度越大，变化越大，代表该变量越不可缺失）
 - 变量间的相关性：如果多个变量在Jackknife测试中的表现相似，可能表明它们之间存在高度相关性。
 
+Do Jackknife to measure variable importance——
+1）traing gain可根据图及maxentResult中的数据取gain with only variable最大获益值的前5个或1.5以上；另外，若gain without variable远小于gain with all variable,表示当缺失某环境变量，则对整体预测效果减低，可作为不可代替因子。
+注意：Gain代表,如2代表the average likelihood of presence sample比随机背景pixel高exp（2）或7.5倍。其regularized training gain with all variables具体数值可在html下的Rawdata或maxentResult中Regualraized train gain提供。
+
+2）test gain与AUC图中，淡蓝色条（without variable）超过红色(with all variables)，代表相应变量被去除后，预测能力反而提高。
+
+反应曲线：存在两种曲线（1）边缘反映曲线（2）第二种反应曲线；观察曲线时，注意温度须除以10，而降雨量直接读取，读取变量范围时，
+应根据适生度阈值（10 percentile training presence logistic threshold作为logistic output(probability of presence)的阈值）；
+取最大影响因子分析其最适生态位，取各时期的重合影响因子做分析，比较不同时期的生态位需求差异。
+
 
 贡献度有两种方法显示，第一个是展示Percent contribution和Permutation importance，第二个是jackknife test。
 
 
-
-
-b. Ficus_altissima_avg.asc
-
-可用于后期处理，如改变适生度阈值，利用Arcmap的重分级功能
-
- 以“10 percentile training presence logistic threshold.”为阈值重分级asc文件
-
-
-
-
-c. maxentResults.csv
+b. maxentResults.csv
 
 可获得其他适生度阈值的参数  “10 percentile training presence logistic threshold.”
 
 可获得运算过程中的具体运算数值
 
+在表格中获得的数值包括
+Regularized training gain作为判断不可替代因子的阈值
+Training AUC判断预测效果
+Test gain作为筛选因子的阈值之一
+Test AUC判断预测效果
+AUC standard deviation判断预测结果的精确性
+Training gain without __某变量__与Regularized training gain判断不可替代因子，当其前者小于后者，表示缺少该变量则预测效果降低。
+Training gain with only__某变量__值愈大则该因子对预测效果的影响愈大。
+10 percentile training presence logistic threshold作为适生区与非适生区的阈值
+Test gain without__某变量__与Test gain比较，当前者比后者大时，表示缺少该变量则预测效果增大，应删除该因子。
+Test gain with only__某变量__值愈大则其与预测效果的影响愈大。
+AUC without__某变量__与test AUC比较，当前者比后者大时，表示缺少该变量则预测效果增大，应删除该因子。
+AUC with only __某变量__值愈大则其与预测效果的影响愈大。
+
+
+
+c. Ficus_altissima_avg.asc
+
+可用于后期处理，如改变适生度阈值，利用Arcmap的重分级功能
+
+ 以“10 percentile training presence logistic threshold.”为阈值重分级asc文件
+
+将asc通过ArcMap转换为raster格式(输出数据类型float)，并重分级（spatial analysts工具中）。
+注意：现代得到的asc图是转换当中的”物种名.asc”的文件，如C.chingii.asc，而投影后的则是转换”物种名_投影时期.asc”，例如C.chingii_lgm_ccsm.asc.
+
+1）二级图：以10 percentile training presence logistic threshold作为划分适生区与非适生区的阈值。阈值的选择，具体请参考“A Maxent Model v3.3.3e Turorial(ArcGIS v10)”(Last Modified on September 1,2011) 
+
+2) 六级图，以Nature Break法分为六级，以湖北紫荆主要分布区的适生值作为划分阈值，最高三级为适生区，其他三级为非适生区，取最高适生区讨论，是否为冰期避难所，以及其植被情况如何。
+
+
+分析方法：
+【1】计算面积、经纬度范围、分布中心：
+利用ArcMap将重分级后的raster转换为面(polygon)，分为两种转法，一种是将所有区域转（命名为polygon_all），另一种转换适生区/最高适生区为polygon_h。
+
+过程：按属性选取目标区域，转换为面（“由栅格转出”—“栅格转面”）。
+Ps:若尚未投影，先利用“数据管理工具”—“投影&转换”—“定义投影”&“要素”的“投影”，并通过“环境”设置，输出坐标系、处理范围和像元大小。
+
+计算面积与坐标：针对polygon_all，“打开属性表”——选菜单中的“表选项”—“添加字段”—添加“Area”\”X”\”Y”的双精度格式，使用“计算几何”—选择“面积”/质心的x坐标/质心的Y坐标—选择”单位”（面积为平方千米，坐标为十进制度）。
+
+统计面积与坐标：对polygon_all“打开属性表”—菜单中“按属性选择”—选字段“GRIDCODE”,如非适生区，使公式为“GRIDCODE=1”则可选取该部分，右击“Area”第一栏进行“统计”，则可得到面积总和；而经纬度范围则可在“统计”中得到最大值与最小值。
+
+计算分布中心：利用适生区的polygon_h,通过“空间统计工具”—“度量地理分布”——“平均中心”（即地理中心/密度中心）——得到的结果进入“打开属性表”——通过“计算几何”将x,y坐标转换为“十进制度”。
+
+
+
+【2】分布区：
+确定适生区所分布的国家、省或植被。
+可利用polygon_h与地图结合，在菜单“选择”中选“按位置选择”，将“目标地图”选取某底图，“源图层”设为适生区polygon_h，“空间选择方法”为“与源图层要素相交”——得到适生区所分布区域。
+
+【3】稳定、收缩、扩张
+从上面得到的适生区/最高适生区polygon_h将不同时期进行比较，如LGM_CCSM与Current比较，打开“分析工具”—“叠加分析”—“相交”，则可获取两时期的“稳定区”，可利用前面方法计算面积等。
+在利用“交集取反”获得扩张、收缩区，如稳定区与CCSM的适生区，“交集取反”后则获得扩张区，而稳定区与Current的适生区，“交集取反”后则得到收缩区。
 
 
 
