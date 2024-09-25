@@ -150,6 +150,15 @@ ArcToolbox-->Spatial Analyst Tools-->Reclass-->Reclassify
 2) 六级图，以Nature Break法分为六级，以湖北紫荆主要分布区的适生值作为划分阈值，最高三级为适生区，其他三级为非适生区，取最高适生区讨论，是否为冰期避难所，以及其植被情况如何。
 
 
+
+不同扩散距离的图层提取出来，
+1km, 50km, 200km，是通过flexsdm获取的tif
+
+
+
+
+
+
 分析方法：
 【1】计算面积、经纬度范围、分布中心：
 利用ArcMap将重分级后的raster转换为面(polygon)，分为两种转法，一种是将所有区域转（命名为polygon_all），另一种转换适生区/最高适生区为polygon_h。
