@@ -181,6 +181,8 @@ ArcToolbox --> Data Management Tools --> Projections and Transformations --> Fea
 
 计算分布中心：利用适生区的polygon_h,通过“空间统计工具”—“度量地理分布”——“平均中心”（即地理中心/密度中心）——得到的结果进入“打开属性表”——通过“计算几何”将x,y坐标转换为“十进制度”。
 
+质心迁移距离计算：
+
 
 
 【2】分布区：
