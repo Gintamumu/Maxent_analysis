@@ -140,6 +140,13 @@ threshold
 将asc通过ArcMap转换为raster格式(输出数据类型float)，并重分级（spatial analysts工具中）。
 
 Conversion Tools --> To Raster --> ASCII to Raster
+(setting: Output data type(optional) = FLOAT)
+
+
+不同扩散距离的图层提取出来，1km, 50km, 200km，是通过flexsdm获取的tif
+flexsdm挖掘出不同扩散情景的范围的crop tif文件,crop_tif用于Maxent asc的图层裁剪
+ArcToolbox--> Spatial Analyst Tools --> Extraction --> Extract by Mask
+
 
 ArcToolbox-->Spatial Analyst Tools-->Reclass-->Reclassify
 
@@ -151,15 +158,7 @@ ArcToolbox-->Spatial Analyst Tools-->Reclass-->Reclassify
 
 
 
-不同扩散距离的图层提取出来，
-1km, 50km, 200km，是通过flexsdm获取的tif
 
-Maxent的asc文件转换为tif用于裁剪
-ArcToolbox--> Conversion Tools --> To Raster --> ASCII to Raster
-(setting: Output data type(optional) = FLOAT)
-
-flexsdm挖掘出不同扩散情景的范围的crop tif文件,crop_tif用于Maxent asc的图层裁剪
-ArcToolbox--> Spatial Analyst Tools --> Extraction --> Extract by Mask
 
 
 
