@@ -139,6 +139,8 @@ threshold
 
 将asc通过ArcMap转换为raster格式(输出数据类型float)，并重分级（spatial analysts工具中）。
 
+Conversion Tools --> To Raster --> ASCII to Raster
+
 ArcToolbox-->Spatial Analyst Tools-->Reclass-->Reclassify
 
 注意：现代得到的asc图是转换当中的”物种名.asc”的文件，如C.chingii.asc，而投影后的则是转换”物种名_投影时期.asc”，例如C.chingii_lgm_ccsm.asc.
