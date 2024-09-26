@@ -182,8 +182,6 @@ ArcToolbox --> Data Management Tools --> Projections and Transformations --> Fea
 计算分布中心：利用适生区的polygon_h,通过“空间统计工具”—“度量地理分布”——“平均中心”（即地理中心/密度中心）——得到的结果进入“打开属性表”——通过“计算几何”将x,y坐标转换为“十进制度”。
              ArcToolbox --> Spatial Statistics Tools --> Measuring Geographic Distributions --> Mean Center
 
-
-
 质心迁移距离计算：ArcToolbox --> Analysis Tools --> Proximity --> Point Distance
                 “ArcToolbox”——“分析工具”——“邻域分析”——“点距离”
 参考https://jingyan.baidu.com/article/0a52e3f4f0d5b6bf62ed7233.html
@@ -191,6 +189,10 @@ ArcToolbox --> Data Management Tools --> Projections and Transformations --> Fea
 Input Features = 起点 current
 Near Features = 终点 Future 45 or 85
 Output Table = default
+
+质心迁移的相对距离计算：
+相对于物种原有的分布范围或潜在适生区的大小，质心迁移的相对距离可能更有意义。例如，如果迁移距离占物种原有分布范围的较大比例，那么这可能表明物种需要较大的空间变动来适应环境变化，从而增加其脆弱性。
+
 
 
 【2】分布区：
