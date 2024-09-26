@@ -188,6 +188,10 @@ ArcToolbox --> Data Management Tools --> Projections and Transformations --> Fea
                 “ArcToolbox”——“分析工具”——“邻域分析”——“点距离”
 参考https://jingyan.baidu.com/article/0a52e3f4f0d5b6bf62ed7233.html
 
+Input Features = 起点 current
+Near Features = 终点 Future 45 or 85
+Output Table = default
+
 
 【2】分布区：
 确定适生区所分布的国家、省或植被。
