@@ -180,6 +180,9 @@ ArcToolbox --> Data Management Tools --> Projections and Transformations --> Fea
 
 
 计算分布中心：利用适生区的polygon_h,通过“空间统计工具”—“度量地理分布”——“平均中心”（即地理中心/密度中心）——得到的结果进入“打开属性表”——通过“计算几何”将x,y坐标转换为“十进制度”。
+             ArcToolbox --> Spatial Statistics Tools --> Measuring Geographic Distributions --> Mean Center
+
+
 
 质心迁移距离计算：ArcToolbox --> Analysis Tools --> Proximity --> Point Distance
                 “ArcToolbox”——“分析工具”——“邻域分析”——“点距离”
@@ -206,6 +209,9 @@ ArcToolbox --> Data Management Tools --> Projections and Transformations --> Fea
 
 进一步，对比分析现代与未来的潜在适生区，揭示植物生态适宜性的变化、栖息地的迁移等趋势。其中，较大的生态适宜性减少可能意味着物种面临更高的脆弱性。
 结合地理信息系统（GIS）软件，可视化展示这些变化，并计算适宜区域的变化比例和质心迁移距离。最后，综合分析各物种潜在栖息地的重叠与分化，探讨它们对气候变化的响应与适应策略。
+
+重复批量处理的程序，可以用Arcmap的ModelBuilder构建
+
 
 
 h. 物种间重叠区域划分与面积计算
