@@ -232,6 +232,14 @@ https://blog.sciencenet.cn/blog-3405761-1255867.html
 分析工具→叠置分析→交集取反
 (Analysis Tools →Overlay → Symmetrical Difference)
 
+
+
+MaxEnt-9-ArcGIS对适生区扩增收缩以及稳定区分析（上）
+https://www.bilibili.com/video/BV1zz4y1J7hn/?spm_id_from=333.788.recommend_more_video.-1&vd_source=ddbf216ad24e4b1f91b06699c95f5c94
+MaxEnt-9-ArcGIS对适生区扩增收缩以及稳定区分析（下）
+https://www.bilibili.com/video/BV1os4y1r7U8/?vd_source=ddbf216ad24e4b1f91b06699c95f5c94
+
+
 【4】 变化程度:将两个时间段前后的预测分布地比较，用红色显示它们迁移的图，是怎么做的？
 这个主要就是用2020数据减去2010年数据 得到一个变化量，然后用-1,1归一化的方法做数据标准化，然后再在Arcgis里面制图（来自华南植物园陈宋佳）
 
@@ -244,6 +252,10 @@ https://blog.sciencenet.cn/blog-3405761-1255867.html
 
 
 h. 物种间重叠区域划分与面积计算
+
+4. 不同物种生态位重合度（range overlap）计算分析；
+5. 不同物种地理分布重合度（Niche overlap）计算分析
+https://wap.sciencenet.cn/blog-3377877-1381435.html
 
 
 i. 濒危等级判定与脆弱性评估
