@@ -180,7 +180,8 @@ ArcToolbox --> Data Management Tools --> Projections and Transformations --> Fea
 
 
 计算分布中心：利用适生区的polygon_h,通过“空间统计工具”—“度量地理分布”——“平均中心”（即地理中心/密度中心）——得到的结果进入“打开属性表”——通过“计算几何”将x,y坐标转换为“十进制度”。
-             ArcToolbox --> Spatial Statistics Tools --> Measuring Geographic Distributions --> Mean Center
+             ArcToolbox --> Spatial Statistics Tools --> Measuring Geographic Distributions --> Mean Center（几何中心）
+https://wenku.baidu.com/view/68e9eb6e75c66137ee06eff9aef8941ea76e4b2a.html?_wkts_=1727340290154&bdQuery=Arcmap%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E9%9D%A2%E7%A7%AF%E4%B8%AD%E5%BF%83%E7%82%B9%E5%92%8C%E8%B4%A8%E5%BF%83
 
 质心迁移距离计算：ArcToolbox --> Analysis Tools --> Proximity --> Point Distance
                 “ArcToolbox”——“分析工具”——“邻域分析”——“点距离”
@@ -192,6 +193,18 @@ Output Table = default
 
 质心迁移的相对距离计算：
 相对于物种原有的分布范围或潜在适生区的大小，质心迁移的相对距离可能更有意义。例如，如果迁移距离占物种原有分布范围的较大比例，那么这可能表明物种需要较大的空间变动来适应环境变化，从而增加其脆弱性。
+
+
+
+
+Maxent等物种分布模型的质心迁移
+https://blog.csdn.net/guo4032/article/details/139241522
+在gis中打开栅格文件
+1 右键选择所需图层，一般进行的是高适生区的迁移分析，即右键选择高适生区
+2栅格转面，将高适生区由栅格数据转为矢量的面数据，（转换工具-栅格转出-转面）
+3平均中心，计算得到矢量数据的中心点（空间统计工具-度量地理分布-平均中心）
+4合并，将不同时期或不同气候浓度的点进行合并，将其放置于一个矢量数据中（地理处理-合并）
+5点集转线，可以在不同的点中间添加线，更直观的表达迁移方向和距离（数据管理工具-要素-点集转线）
 
 
 
