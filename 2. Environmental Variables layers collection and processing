@@ -110,8 +110,27 @@ edit .txt to .asc
 
 
 
+(10)(For Chelsa data) 
+手动为变量设置比例和偏移量。这可以通过首先将栅格值与“比例”值相乘，然后加上“偏移”值来完成。
+In this case the scale and offset has to be set manually for the variables. This can be done by first multiplying the raster values with the ‘scale’ value and then adding the ‘offset’ value.
 
-
+在ArcMap中手动为GeoTIFF文件中的变量设置比例（Scale）和偏移量（Offset）通常涉及栅格数据的重新计算或调整。以下是在ArcMap中实现这一过程的步骤：
+1.加载GeoTIFF文件：
+- 打开ArcMap，并加载包含你需要调整比例和偏移量的GeoTIFF文件。
+2.打开栅格计算器：
+- 在ArcMap的工具栏中，找到并打开“栅格计算器”（Raster Calculator）。这通常位于“空间分析工具”（Spatial Analyst Tools）下的“地图代数”（Map Algebra）工具箱中。
+3.构建表达式：
+- 在栅格计算器中，你需要构建一个表达式来应用比例和偏移量。假设你的GeoTIFF文件名为“raster.tif”，比例值为“scale”，偏移量为“offset”，则表达式可能如下：
+                                      "raster.tif" * scale + offset
+- 注意，在ArcMap的栅格计算器中，你可能需要为变量名（如“raster.tif”）加上双引号，并确保比例和偏移量已经作为已知的数值或变量在表达式中。
+4.执行计算：
+- 输入完表达式后，点击“确定”（OK）或“计算”（Evaluate）来执行计算。这将生成一个新的栅格数据集，其中包含了应用比例和偏移量后的值。
+5.保存结果：
+- 将计算后的栅格数据集保存为一个新的文件。确保选择适当的文件格式和位置来保存你的数据。
+6.验证结果：
+- 加载新生成的栅格数据集，并检查其属性以确定比例和偏移量是否正确应用。你可以通过查看栅格值的直方图或进行其他统计分析来验证这一点。
+需要注意的是，上述步骤假设你已经知道GeoTIFF文件中的比例和偏移量值。如果你不确定这些值，你可能需要查阅文件的元数据或联系数据的提供者来获取这些信息。
+此外，如果你在处理过程中遇到任何问题，例如栅格计算器无法识别你的GeoTIFF文件或表达式构建失败，请确保你的ArcMap和ArcGIS Desktop版本支持GeoTIFF文件的比例和偏移量处理，并且你已经正确安装了所有必要的更新和补丁。在某些情况下，你可能需要使用更高版本的ArcGIS软件或更新你的GDAL库来处理这些文件。
 
 
 
