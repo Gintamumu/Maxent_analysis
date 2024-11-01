@@ -135,7 +135,10 @@ threshold
 3) equal training sensitivity and specificity logistic threshold
 
 
- 以“10 percentile training presence logistic threshold.”为阈值重分级asc文件
+Asc 此数据集中没有分类方法所需的有效直方图，运行“计算统计数据”工具以生成直方图。
+数据管理工具-栅格-栅格属性-计算统计数据
+
+ 以“10 percentile training presence logistic threshold.”为阈值重分级asc文件 (或Equal training sensitivity and specificity logistic threshold)
 
 将asc通过ArcMap转换为raster格式(输出数据类型float)，并重分级（spatial analysts工具中）。
 
