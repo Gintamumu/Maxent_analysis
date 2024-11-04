@@ -260,6 +260,7 @@ h. 物种间重叠区域划分与面积计算
 5. 不同物种地理分布重合度（Niche overlap）计算分析
 https://wap.sciencenet.cn/blog-3377877-1381435.html
 
+适生区重叠程度图  利用Union  ArcToolbox - Analysis Tools - Overlay - Union 联合
 
 i. 濒危等级判定与脆弱性评估
 
