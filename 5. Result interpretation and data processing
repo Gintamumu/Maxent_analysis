@@ -176,7 +176,7 @@ ArcToolbox-->Conversion Tools --> From Raster --> Raster to Polygon
 Ps:若尚未投影，先利用“数据管理工具”—“投影&转换”—“定义投影”&“要素”的“投影”，并通过“环境”设置，输出坐标系、处理范围和像元大小。
 ArcToolbox --> Data Management Tools --> Projections and Transformations --> Feature --> Project
 
-计算面积与坐标：针对polygon_all，“打开属性表”——选菜单中的“表选项”—“添加字段”—添加“Area”\”X”\”Y”的双精度格式，使用“计算几何”—选择“面积”/质心的x坐标/质心的Y坐标—选择”单位”（面积为平方千米，坐标为十进制度）。
+计算面积与坐标：针对polygon_all，“打开属性表”——选菜单中的“表选项”—“添加字段”（Add field）—添加“Area”\”X”\”Y”（x and y Coordinate of Centroid）的双精度格式（Double），使用“计算几何”（Calculate Geometry）—选择“面积”/质心的x坐标/质心的Y坐标—选择”单位”（units）（面积为平方千米，坐标为十进制度（Decimal Degrees））。
 
 
 统计面积与坐标：对polygon_all“打开属性表”—菜单中“按属性选择”—选字段“GRIDCODE”,如非适生区，使公式为“GRIDCODE=1”则可选取该部分，右击“Area”第一栏进行“统计”，则可得到面积总和；而经纬度范围则可在“统计”中得到最大值与最小值。
