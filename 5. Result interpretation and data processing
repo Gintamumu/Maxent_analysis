@@ -150,6 +150,7 @@ Conversion Tools --> To Raster --> ASCII to Raster
 flexsdm挖掘出不同扩散情景的范围的crop tif文件,crop_tif用于Maxent asc的图层裁剪
 ArcToolbox--> Spatial Analyst Tools --> Extraction --> Extract by Mask
 
+Layer Properties --> Symbology --> Classified --> Classes 2 --> Classify--> set threshold
 
 ArcToolbox-->Spatial Analyst Tools-->Reclass-->Reclassify
 
